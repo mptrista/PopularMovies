@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="api_key_string">@string/api_key</string>
+
     <string name="app_name">Popular Movies</string>
     <string name="action_settings">Settings</string>
 

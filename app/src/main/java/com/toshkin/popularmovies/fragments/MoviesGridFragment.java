@@ -14,7 +14,7 @@ import com.toshkin.popularmovies.R;
 import com.toshkin.popularmovies.adapters.MoviesRecyclerAdapter;
 
 /**
- * Created by Lazar on 10/14/15.
+ * @author Lazar Toshkin
  */
 public class MoviesGridFragment extends Fragment {
     public static final String TAG = "MoviesGridFragment.TAG";
@@ -23,12 +23,7 @@ public class MoviesGridFragment extends Fragment {
     private Toolbar mToolbar;
 
     public static MoviesGridFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        MoviesGridFragment fragment = new MoviesGridFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return new MoviesGridFragment();
     }
 
 

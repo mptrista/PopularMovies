@@ -11,7 +11,7 @@ import com.toshkin.popularmovies.model.MovieItem;
 import java.util.List;
 
 /**
- * Created by Lazar on 10/15/15.
+ * @author Lazar Toshkin
  */
 public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAdapter.MovieViewHolder> {
 
@@ -36,6 +36,7 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
+
 
         public MovieViewHolder(View itemView) {
             super(itemView);

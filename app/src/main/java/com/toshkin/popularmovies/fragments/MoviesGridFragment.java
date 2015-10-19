@@ -26,8 +26,6 @@ public class MoviesGridFragment extends Fragment {
         return new MoviesGridFragment();
     }
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

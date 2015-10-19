@@ -1,7 +1,18 @@
 package com.toshkin.popularmovies.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
- * Created by Lazar on 10/15/15.
+ * @author Lazar 
  */
 public class MovieItem {
+
+    @Expose
+    @SerializedName("")
+    private String mAvatarUrl;
+
+    public String getAvatarUrl() {
+        return mAvatarUrl;
+    }
 }

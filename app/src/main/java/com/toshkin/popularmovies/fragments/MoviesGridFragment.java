@@ -10,8 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.toshkin.popularmovies.PopularMoviesApplication;
 import com.toshkin.popularmovies.R;
 import com.toshkin.popularmovies.adapters.MoviesRecyclerAdapter;
+import com.toshkin.popularmovies.network.API;
+import com.toshkin.popularmovies.network.MoviesResponse;
+import com.toshkin.popularmovies.network.MoviesSortOrder;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * @author Lazar Toshkin
@@ -19,12 +27,26 @@ import com.toshkin.popularmovies.adapters.MoviesRecyclerAdapter;
 public class MoviesGridFragment extends Fragment {
     public static final String TAG = "MoviesGridFragment.TAG";
 
+    private API mApi;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
 
     public static MoviesGridFragment newInstance() {
         return new MoviesGridFragment();
     }
+
+    private Callback<MoviesResponse> mCallback = new Callback<MoviesResponse>() {
+        @Override
+        public void success(MoviesResponse moviesResponse, Response response) {
+
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+
+        }
+    };
+
 
     @Nullable
     @Override
@@ -34,6 +56,13 @@ public class MoviesGridFragment extends Fragment {
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         configureRecyclerView();
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mApi = PopularMoviesApplication.getInstance().getAPI();
+        mApi.getMovies(MoviesSortOrder.HIGHEST_RATED.toString(), mCallback);
     }
 
     private void configureRecyclerView() {

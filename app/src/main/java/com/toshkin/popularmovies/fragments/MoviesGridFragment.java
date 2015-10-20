@@ -15,7 +15,6 @@ import com.toshkin.popularmovies.R;
 import com.toshkin.popularmovies.adapters.MoviesRecyclerAdapter;
 import com.toshkin.popularmovies.network.API;
 import com.toshkin.popularmovies.network.MoviesResponse;
-import com.toshkin.popularmovies.network.MoviesSortOrder;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -62,7 +61,7 @@ public class MoviesGridFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mApi = PopularMoviesApplication.getInstance().getAPI();
-        mApi.getMovies(MoviesSortOrder.HIGHEST_RATED.toString(), mCallback);
+        mApi.getMovies(mCallback);
     }
 
     private void configureRecyclerView() {

@@ -10,13 +10,16 @@ import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.toshkin.popularmovies.network.API;
 import com.toshkin.popularmovies.network.ApiKeyInterceptor;
+import com.toshkin.popularmovies.network.ServerDateDeserializer;
+
+import java.util.Date;
 
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
 /**
- * @author Lazar 
+ * @author Lazar
  */
 public class PopularMoviesApplication extends Application {
 
@@ -69,6 +72,7 @@ public class PopularMoviesApplication extends Application {
     private Gson setupGson() {
         return new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .registerTypeAdapter(Date.class, new ServerDateDeserializer())
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
     }

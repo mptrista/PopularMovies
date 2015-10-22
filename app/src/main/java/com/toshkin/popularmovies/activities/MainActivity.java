@@ -1,12 +1,16 @@
 package com.toshkin.popularmovies.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import com.toshkin.popularmovies.R;
+import com.toshkin.popularmovies.fragments.MovieDetailFragment;
 import com.toshkin.popularmovies.fragments.MoviesGridFragment;
+import com.toshkin.popularmovies.interfaces.NavigationProvider;
+import com.toshkin.popularmovies.pojos.MovieItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationProvider {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,5 +22,13 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.fragments_container, MoviesGridFragment.newInstance(), MoviesGridFragment.TAG)
                     .commit();
         }
+    }
+
+    @Override
+    public void openMovieDetailFragment(@NonNull MovieItem item) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragments_container, MovieDetailFragment.newInstance(item), MovieDetailFragment.TAG)
+                .addToBackStack(MovieDetailFragment.TAG)
+                .commit();
     }
 }

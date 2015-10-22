@@ -5,9 +5,9 @@ package com.toshkin.popularmovies.network;
  */
 public enum MoviesSortOrder {
 
-    MOST_POPULAR("popularity.asc"),
+    MOST_POPULAR("popularity.desc"),
 
-    HIGHEST_RATED("vote_average.asc");
+    HIGHEST_RATED("vote_average.desc");
 
     private String mSorting;
 

@@ -14,7 +14,7 @@ import retrofit.RequestInterceptor;
 public class ApiKeyInterceptor implements RequestInterceptor {
     public static final String TAG = "APIKeyInterceptor";
 
-    private static final String HEADER_NAME = "api_key ";
+    private static final String HEADER_NAME = "api_key";
 
     String mApiKey;
 
@@ -34,6 +34,6 @@ public class ApiKeyInterceptor implements RequestInterceptor {
 
     @Override
     public void intercept(RequestFacade request) {
-        request.addHeader(HEADER_NAME, mApiKey);
+        request.addQueryParam(HEADER_NAME, mApiKey);
     }
 }

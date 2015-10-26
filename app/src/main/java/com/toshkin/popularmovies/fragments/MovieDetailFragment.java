@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.toshkin.popularmovies.R;
 import com.toshkin.popularmovies.pojos.MovieItem;
+import com.toshkin.popularmovies.utils.Constants;
 
 import java.util.Calendar;
 
@@ -23,7 +24,6 @@ import java.util.Calendar;
 public class MovieDetailFragment extends Fragment {
     public static final String TAG = "MovieDetailFragment.TAG";
     public static final String ARG_MOVIE_ITEM = "ARG_MOVIE_ITEM";
-    public static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/w185/";
 
     private MovieItem mMovieItem;
 
@@ -77,7 +77,7 @@ public class MovieDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Picasso.with(getContext()).cancelRequest(mPosterView);
         Picasso.with(getContext())
-                .load(POSTER_BASE_URL + mMovieItem.getPosterPath())
+                .load(Constants.POSTER_BASE_URL + mMovieItem.getPosterPath())
                 .placeholder(R.drawable.ic_placeholder)
                 .centerCrop()
                 .fit()

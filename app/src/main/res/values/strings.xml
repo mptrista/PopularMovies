@@ -10,4 +10,6 @@
 
     <string name="desc_movie_poster">Poster image of the selected movie</string>
     <string name="desc_movie_grid_item">Movie item from the grid</string>
+
+    <string name="preference_file">com.toshkin.popularmovies.PREFERENCE_FILE_KEY</string>
 </resources>

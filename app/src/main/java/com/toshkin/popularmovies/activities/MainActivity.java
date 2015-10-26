@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.toshkin.popularmovies.R;
 import com.toshkin.popularmovies.fragments.MovieDetailFragment;
 import com.toshkin.popularmovies.fragments.MoviesGridFragment;
+import com.toshkin.popularmovies.fragments.SettingsDialogFragment;
 import com.toshkin.popularmovies.interfaces.NavigationProvider;
 import com.toshkin.popularmovies.pojos.MovieItem;
 
@@ -30,5 +31,10 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
                 .replace(R.id.fragments_container, MovieDetailFragment.newInstance(item), MovieDetailFragment.TAG)
                 .addToBackStack(MovieDetailFragment.TAG)
                 .commit();
+    }
+
+    @Override
+    public void openSettingsDialog() {
+        SettingsDialogFragment.newInstance().show(getSupportFragmentManager(), SettingsDialogFragment.TAG);
     }
 }

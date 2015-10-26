@@ -1,13 +1,17 @@
 package com.toshkin.popularmovies.fragments;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -19,8 +23,9 @@ import com.toshkin.popularmovies.interfaces.MovieSelectedListener;
 import com.toshkin.popularmovies.interfaces.NavigationProvider;
 import com.toshkin.popularmovies.network.API;
 import com.toshkin.popularmovies.network.MoviesResponse;
-import com.toshkin.popularmovies.network.MoviesSortOrder;
 import com.toshkin.popularmovies.pojos.MovieItem;
+import com.toshkin.popularmovies.utils.Constants;
+import com.toshkin.popularmovies.utils.DividerItemDecoration;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -59,9 +64,11 @@ public class MoviesGridFragment extends Fragment {
 
         @Override
         public void failure(RetrofitError error) {
-            Toast.makeText(getContext(), "Retrieving info failed!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Retrieving info failed! Check if you are online!", Toast.LENGTH_SHORT).show();
         }
     };
+
+
 
 
     @Nullable
@@ -72,6 +79,7 @@ public class MoviesGridFragment extends Fragment {
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         mAdapter = new MoviesRecyclerAdapter();
         configureRecyclerView();
+        configureToolbar();
         return rootView;
     }
 
@@ -93,7 +101,7 @@ public class MoviesGridFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mApi = PopularMoviesApplication.getInstance().getAPI();
-        mApi.getMovies(MoviesSortOrder.MOST_POPULAR.toString(), mCallback);
+        mApi.getMovies(Constants.ORDER_POPULAR_DESC, mCallback);
         mAdapter.setMovieListener(mMovieListener);
     }
 
@@ -114,5 +122,32 @@ public class MoviesGridFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        Context context = mRecyclerView.getContext();
+        int dividerDrawableRes = getThemeAttribute(context.getTheme(), R.attr.dividerVertical);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(context, dividerDrawableRes, DividerItemDecoration.VERTICAL_LIST));
+    }
+
+    private static int getThemeAttribute(Resources.Theme theme, int themeAttr) {
+        final TypedValue value = new TypedValue();
+        theme.resolveAttribute(themeAttr, value, true);
+        return value.resourceId;
+    }
+
+    private void configureToolbar() {
+        mToolbar.setTitle(R.string.app_name);
+        mToolbar.inflateMenu(R.menu.menu_main);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.action_settings) {
+                    if (mNavigator != null) {
+                        mNavigator.openSettingsDialog();
+                    }
+                }
+
+                return false;
+            }
+        });
     }
 }

@@ -9,4 +9,5 @@ import com.toshkin.popularmovies.pojos.MovieItem;
  */
 public interface NavigationProvider {
     void openMovieDetailFragment(@NonNull MovieItem item);
+    void openSettingsDialog();
 }

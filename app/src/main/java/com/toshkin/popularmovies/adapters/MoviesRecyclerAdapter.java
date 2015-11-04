@@ -1,6 +1,8 @@
 package com.toshkin.popularmovies.adapters;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,9 +57,68 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
         this.mMovieListener = mMovieListener;
     }
 
+    public void clear() {
+        mItems.clear();
+    }
+
     public void addItems(List<MovieItem> items) {
         mItems.addAll(items);
         notifyDataSetChanged();
+    }
+
+    public List<MovieItem> getItems() {
+        return mItems;
+    }
+
+    public Parcelable onSaveInstanceState() {
+        return new AdapterState(mItems);
+    }
+
+    public void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof AdapterState)) {
+            throw new IllegalArgumentException("The state argument must be derived from onSaveInstanceState()");
+        }
+
+        if (state != null) {
+            AdapterState adapterState = (AdapterState) state;
+            mItems.clear();
+            mItems = adapterState.movieData;
+            notifyDataSetChanged();
+        }
+    }
+
+    private static class AdapterState implements Parcelable {
+        public static final Parcelable.Creator<AdapterState> CREATOR = new Parcelable.Creator<AdapterState>() {
+            public AdapterState createFromParcel(Parcel source) {
+                return new AdapterState(source);
+            }
+
+            public AdapterState[] newArray(int size) {
+                return new AdapterState[size];
+            }
+        };
+        List<MovieItem> movieData;
+
+        public AdapterState(List<MovieItem> movieData) {
+            this.movieData = movieData;
+        }
+
+        public AdapterState() {
+        }
+
+        protected AdapterState(Parcel in) {
+            this.movieData = in.createTypedArrayList(MovieItem.CREATOR);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeTypedList(movieData);
+        }
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {

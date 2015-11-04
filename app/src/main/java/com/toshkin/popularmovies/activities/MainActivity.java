@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragments_container, MoviesGridFragment.newInstance(), MoviesGridFragment.TAG)
+                    .addToBackStack(MoviesGridFragment.TAG)
                     .commit();
         }
     }

@@ -3,6 +3,7 @@ package com.toshkin.popularmovies.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,9 @@ import com.toshkin.popularmovies.R;
 import com.toshkin.popularmovies.pojos.MovieItem;
 import com.toshkin.popularmovies.utils.Constants;
 
-import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * @author Lazar
@@ -24,6 +27,8 @@ import java.util.Calendar;
 public class MovieDetailFragment extends Fragment {
     public static final String TAG = "MovieDetailFragment.TAG";
     public static final String ARG_MOVIE_ITEM = "ARG_MOVIE_ITEM";
+
+    private DateFormat mDateFormat = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
 
     private MovieItem mMovieItem;
 
@@ -83,11 +88,9 @@ public class MovieDetailFragment extends Fragment {
                 .fit()
                 .into(mPosterView);
         String title = mMovieItem.getTitle();
-        if (mMovieItem.getReleaseDate() != null) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(mMovieItem.getReleaseDate());
-            int year = calendar.get(Calendar.YEAR);
-             title = title + " (" + year + ")";
+        if (!TextUtils.isEmpty(mMovieItem.getReleaseDate())) {
+            String date = mMovieItem.getReleaseDate();
+            title = title + " (" + date + ")";
         }
         mTitleTextView.setText(title);
         mRatingTextView.setText(String.valueOf(mMovieItem.getAverageVote()));

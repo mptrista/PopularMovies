@@ -191,7 +191,9 @@ public class MoviesGridFragment extends Fragment implements OnSharedPreferenceCh
     }
 
     private void showError() {
-        Toast.makeText(getContext(), "Retrieving info failed! Check if you are online!", Toast.LENGTH_SHORT).show();
+        if (MoviesGridFragment.this.isVisible()) {
+            Toast.makeText(getContext(), "Retrieving info failed! Check if you are online!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void configureToolbar() {

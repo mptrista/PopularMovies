@@ -84,6 +84,7 @@ public class MovieDetailFragment extends Fragment {
         Picasso.with(getContext())
                 .load(Constants.POSTER_BASE_URL + mMovieItem.getPosterPath())
                 .placeholder(R.drawable.ic_placeholder)
+                .error(R.drawable.ic_placeholder)
                 .centerCrop()
                 .fit()
                 .into(mPosterView);

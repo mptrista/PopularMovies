@@ -79,12 +79,10 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
             throw new IllegalArgumentException("The state argument must be derived from onSaveInstanceState()");
         }
 
-        if (state != null) {
-            AdapterState adapterState = (AdapterState) state;
-            mItems.clear();
-            mItems = adapterState.movieData;
-            notifyDataSetChanged();
-        }
+        AdapterState adapterState = (AdapterState) state;
+        mItems.clear();
+        mItems.addAll(adapterState.movieData);
+        notifyDataSetChanged();
     }
 
     private static class AdapterState implements Parcelable {
@@ -136,6 +134,7 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
             Picasso.with(mContext)
                     .load(POSTER_BASE_URL + item.getPosterPath())
                     .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .centerCrop()
                     .fit()
                     .into(mImageView);

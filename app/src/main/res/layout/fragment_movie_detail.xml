@@ -19,78 +19,83 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ImageView
-            android:id="@+id/poster_image_view"
-            android:layout_width="123dp"
-            android:layout_height="185dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="@dimen/activity_standard_margin"
-            android:layout_marginRight="@dimen/activity_standard_margin"
-            android:layout_marginTop="@dimen/activity_standard_margin"
-            android:contentDescription="@string/desc_movie_poster"/>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/poster_image_view"
-            android:layout_marginEnd="@dimen/activity_standard_margin"
-            android:layout_marginRight="@dimen/activity_standard_margin"
-            android:layout_toEndOf="@+id/poster_image_view"
-            android:layout_toRightOf="@+id/poster_image_view"
-            android:textAppearance="?android:attr/textAppearanceSearchResultTitle"
-            tools:text="Title of the movie / year"/>
+            <ImageView
+                android:id="@+id/poster_image_view"
+                android:layout_width="123dp"
+                android:layout_height="185dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/activity_standard_margin"
+                android:layout_marginRight="@dimen/activity_standard_margin"
+                android:layout_marginTop="@dimen/activity_standard_margin"
+                android:contentDescription="@string/desc_movie_poster"/>
 
-        <TextView
-            android:id="@+id/rating_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title_text_view"
-            android:layout_marginEnd="@dimen/activity_standard_margin"
-            android:layout_marginRight="@dimen/activity_standard_margin"
-            android:layout_toEndOf="@+id/poster_image_view"
-            android:layout_toRightOf="@+id/poster_image_view"
-            android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="rating"/>
+            <TextView
+                android:id="@+id/title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/poster_image_view"
+                android:layout_marginEnd="@dimen/activity_standard_margin"
+                android:layout_marginRight="@dimen/activity_standard_margin"
+                android:layout_toEndOf="@+id/poster_image_view"
+                android:layout_toRightOf="@+id/poster_image_view"
+                android:textAppearance="?android:attr/textAppearanceSearchResultTitle"
+                tools:text="Title of the movie / year"/>
 
-        <TextView
-            android:id="@+id/summary_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/poster_image_view"
-            android:layout_marginEnd="@dimen/activity_standard_margin"
-            android:layout_marginLeft="@dimen/activity_standard_margin"
-            android:layout_marginRight="@dimen/activity_standard_margin"
-            android:layout_marginStart="@dimen/activity_standard_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:ellipsize="end"
-            android:maxLines="7"
-            android:scrollHorizontally="true"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
+            <TextView
+                android:id="@+id/rating_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_text_view"
+                android:layout_marginEnd="@dimen/activity_standard_margin"
+                android:layout_marginRight="@dimen/activity_standard_margin"
+                android:layout_toEndOf="@+id/poster_image_view"
+                android:layout_toRightOf="@+id/poster_image_view"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="rating"/>
 
-        <Button
-            android:id="@+id/favorite_button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/poster_image_view"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="@dimen/activity_standard_margin"
-            android:layout_marginRight="@dimen/activity_standard_margin"
-            android:text="@string/button_add_favorites"/>
+            <TextView
+                android:id="@+id/summary_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/poster_image_view"
+                android:layout_marginEnd="@dimen/activity_standard_margin"
+                android:layout_marginLeft="@dimen/activity_standard_margin"
+                android:layout_marginRight="@dimen/activity_standard_margin"
+                android:layout_marginStart="@dimen/activity_standard_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:ellipsize="end"
+                android:maxLines="7"
+                android:scrollHorizontally="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/favorite_button"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/poster_image_view"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="@dimen/activity_standard_margin"
+                android:layout_marginRight="@dimen/activity_standard_margin"
+                android:text="@string/button_add_favorites"/>
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

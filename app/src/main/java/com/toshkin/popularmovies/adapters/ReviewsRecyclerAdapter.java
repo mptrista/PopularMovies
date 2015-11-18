@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,6 +108,7 @@ public class ReviewsRecyclerAdapter extends RecyclerView.Adapter<ReviewsRecycler
     public class TrailerViewHolder extends RecyclerView.ViewHolder {
         private TextView mNameView;
         private TextView mReviewView;
+        private boolean isExpanded;
 
         public TrailerViewHolder(View itemView) {
             super(itemView);
@@ -119,6 +121,20 @@ public class ReviewsRecyclerAdapter extends RecyclerView.Adapter<ReviewsRecycler
             mReviewView.setClickable(true);
             mReviewView.setMovementMethod(LinkMovementMethod.getInstance());
             mReviewView.setText(Html.fromHtml(item.getContent()));
+            mReviewView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isExpanded) {
+                        isExpanded = false;
+                        mReviewView.setMaxLines(2);
+                        mReviewView.setEllipsize(TextUtils.TruncateAt.END);
+                    } else {
+                        isExpanded = true;
+                        mReviewView.setMaxLines(Integer.MAX_VALUE);
+                        mReviewView.setEllipsize(null);
+                    }
+                }
+            });
         }
     }
 }

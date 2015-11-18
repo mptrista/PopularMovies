@@ -97,7 +97,6 @@
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
 
 
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/trailer_recycler_view"
                 android:layout_width="match_parent"
@@ -113,14 +112,14 @@
                 android:id="@+id/reviews_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="164dp"
-                android:layout_below="@id/trailer_recycler_view"
                 android:layout_alignParentBottom="true"
+                android:layout_below="@id/trailer_recycler_view"
                 android:layout_marginEnd="@dimen/activity_standard_margin"
                 android:layout_marginLeft="@dimen/activity_standard_margin"
                 android:layout_marginRight="@dimen/activity_standard_margin"
                 android:layout_marginStart="@dimen/activity_standard_margin"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"/>
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:minHeight="244dp"/>
 
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>

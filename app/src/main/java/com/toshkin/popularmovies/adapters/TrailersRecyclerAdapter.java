@@ -12,33 +12,35 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.toshkin.popularmovies.R;
 import com.toshkin.popularmovies.interfaces.ItemSelectedListener;
-import com.toshkin.popularmovies.network.pojo.MovieItem;
+import com.toshkin.popularmovies.network.pojo.TrailerData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Lazar Toshkin
+ * @author Lazar
  */
-public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAdapter.MovieViewHolder> {
-    public static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/w185/";
+public class TrailersRecyclerAdapter extends RecyclerView.Adapter<TrailersRecyclerAdapter.TrailerViewHolder> {
 
-    private List<MovieItem> mItems;
+    public static final String TRAILER_IMAGE_URL = "http://img.youtube.com/vi/";
+    public static final String TRAILER_FIRST_IMAGE = "/0.jpg";
+
+    private List<TrailerData> mItems;
     private ItemSelectedListener mMovieListener;
 
 
-    public MoviesRecyclerAdapter() {
+    public TrailersRecyclerAdapter() {
         this.mItems = new ArrayList<>();
     }
 
     @Override
-    public MovieViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_movie, parent, false);
-        return new MovieViewHolder(view);
+    public TrailerViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_trailer, parent, false);
+        return new TrailerViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, final int position) {
+    public void onBindViewHolder(TrailerViewHolder holder, final int position) {
         holder.onBind(mItems.get(position));
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +55,7 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
         return mItems.size();
     }
 
-    public void setMovieListener(ItemSelectedListener mMovieListener) {
+    public void setListener(ItemSelectedListener mMovieListener) {
         this.mMovieListener = mMovieListener;
     }
 
@@ -61,12 +63,12 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
         mItems.clear();
     }
 
-    public void addItems(List<MovieItem> items) {
+    public void addItems(List<TrailerData> items) {
         mItems.addAll(items);
         notifyDataSetChanged();
     }
 
-    public List<MovieItem> getItems() {
+    public List<TrailerData> getItems() {
         return mItems;
     }
 
@@ -81,31 +83,15 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
 
         AdapterState adapterState = (AdapterState) state;
         mItems.clear();
-        mItems.addAll(adapterState.movieData);
+        mItems.addAll(adapterState.trailerDatas);
         notifyDataSetChanged();
     }
 
     private static class AdapterState implements Parcelable {
-        public static final Parcelable.Creator<AdapterState> CREATOR = new Parcelable.Creator<AdapterState>() {
-            public AdapterState createFromParcel(Parcel source) {
-                return new AdapterState(source);
-            }
+        List<TrailerData> trailerDatas;
 
-            public AdapterState[] newArray(int size) {
-                return new AdapterState[size];
-            }
-        };
-        List<MovieItem> movieData;
-
-        public AdapterState(List<MovieItem> movieData) {
-            this.movieData = movieData;
-        }
-
-        public AdapterState() {
-        }
-
-        protected AdapterState(Parcel in) {
-            this.movieData = in.createTypedArrayList(MovieItem.CREATOR);
+        public AdapterState(List<TrailerData> movieData) {
+            this.trailerDatas = movieData;
         }
 
         @Override
@@ -115,24 +101,39 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeTypedList(movieData);
+            dest.writeList(this.trailerDatas);
         }
+
+        protected AdapterState(Parcel in) {
+            this.trailerDatas = new ArrayList<TrailerData>();
+            in.readList(this.trailerDatas, List.class.getClassLoader());
+        }
+
+        public static final Creator<AdapterState> CREATOR = new Creator<AdapterState>() {
+            public AdapterState createFromParcel(Parcel source) {
+                return new AdapterState(source);
+            }
+
+            public AdapterState[] newArray(int size) {
+                return new AdapterState[size];
+            }
+        };
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
+    public class TrailerViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
         private Context mContext;
 
-        public MovieViewHolder(View itemView) {
+        public TrailerViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.movie_grid_item);
+            mImageView = (ImageView) itemView.findViewById(R.id.trailer_grid_item);
             mContext = itemView.getContext();
         }
 
-        public void onBind(MovieItem item) {
+        public void onBind(TrailerData item) {
             Picasso.with(mContext).cancelRequest(mImageView);
             Picasso.with(mContext)
-                    .load(POSTER_BASE_URL + item.getPosterPath())
+                    .load(TRAILER_IMAGE_URL + item.getKey() + TRAILER_FIRST_IMAGE)
                     .placeholder(R.drawable.ic_placeholder)
                     .error(R.drawable.ic_placeholder)
                     .centerCrop()

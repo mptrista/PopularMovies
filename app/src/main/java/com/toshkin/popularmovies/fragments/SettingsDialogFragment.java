@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,7 @@ import com.toshkin.popularmovies.utils.Constants;
 /**
  * @author Lazar
  */
-public class SettingsDialogFragment extends DialogFragment {
+public class SettingsDialogFragment extends AppCompatDialogFragment {
     public static final String TAG = "SettingsDialogFragment.TAG";
 
 
@@ -35,6 +35,7 @@ public class SettingsDialogFragment extends DialogFragment {
         mRadioGroup = (RadioGroup) rootView.findViewById(R.id.radio_group);
         setInitialCheck();
         setEventListener();
+        getDialog().setTitle(getString(R.string.title_dialog_fragment));
         return rootView;
     }
 

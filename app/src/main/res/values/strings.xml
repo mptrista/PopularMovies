@@ -7,11 +7,13 @@
 
     <string name="button_add_favorites">Add Favorites</string>
 
-
+    <!-- Grid strings -->
     <string name="desc_movie_poster">Poster image of the selected movie</string>
     <string name="desc_movie_grid_item">Movie item from the grid</string>
     <string name="title_dialog_fragment">Choose movies ordering</string>
     <string name="radio_label_popular">Popularity descending</string>
     <string name="text_radio_rating">Rating descending</string>
 
+    <!-- Detail strings -->
+    <string name="desc_movie_trailer">Image thumbnail of the trailer</string>
 </resources>

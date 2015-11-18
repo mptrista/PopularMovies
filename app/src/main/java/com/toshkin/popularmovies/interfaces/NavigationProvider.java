@@ -2,7 +2,7 @@ package com.toshkin.popularmovies.interfaces;
 
 import android.support.annotation.NonNull;
 
-import com.toshkin.popularmovies.pojos.MovieItem;
+import com.toshkin.popularmovies.network.pojo.MovieItem;
 
 /**
  * @author Lazar

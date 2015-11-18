@@ -1,7 +1,8 @@
-package com.toshkin.popularmovies.network;
+package com.toshkin.popularmovies.network.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.toshkin.popularmovies.network.pojo.ReviewData;
 
 import java.util.List;
 
@@ -29,33 +30,6 @@ public class ReviewsResponse {
     @Expose
     @SerializedName("total_pages")
     private int mPageCount;
-
-    public static class ReviewData {
-        @Expose @SerializedName("id")
-        private int reviewId;
-        @Expose @SerializedName("author")
-        private String authorName;
-        @Expose @SerializedName("content")
-        private String content;
-        @Expose @SerializedName("url")
-        private String url;
-
-        public int getReviewId() {
-            return reviewId;
-        }
-
-        public String getAuthorName() {
-            return authorName;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-    }
 
     public int getPageCount() {
         return mPageCount;

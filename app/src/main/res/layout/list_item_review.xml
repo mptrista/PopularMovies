@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/review_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/rhythm_space_double"
+    android:layout_marginTop="@dimen/rhythm_space_double"
+    android:layout_marginLeft="@dimen/rhythm_space_double"
+    android:layout_marginRight="@dimen/rhythm_space_double"
+    android:layout_marginStart="@dimen/rhythm_space_double"
+    android:layout_marginBottom="@dimen/rhythm_space_double"
+    android:gravity="center_vertical|start"
+    android:minHeight="@dimen/rhythm_avatar_size"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/reviewer_name"
+        tools:text="Firstname Lastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textAppearance="?android:textAppearanceListItemSmall"/>
+
+    <TextView
+        android:id="@+id/review_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="@color/secondary_text"
+        android:gravity="center_vertical"
+        android:textIsSelectable="false"
+        android:linksClickable="false"
+        android:autoLink="all"
+        tools:text="You put your mind to it, you can surely do it Move on up, we can to move on up Move on up, we can to move on up Move on up,"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:lines="2" />
+
+</LinearLayout>

@@ -9,7 +9,7 @@ import com.toshkin.popularmovies.fragments.MovieDetailFragment;
 import com.toshkin.popularmovies.fragments.MoviesGridFragment;
 import com.toshkin.popularmovies.fragments.SettingsDialogFragment;
 import com.toshkin.popularmovies.interfaces.NavigationProvider;
-import com.toshkin.popularmovies.pojos.MovieItem;
+import com.toshkin.popularmovies.network.pojo.MovieItem;
 
 public class MainActivity extends AppCompatActivity implements NavigationProvider {
 

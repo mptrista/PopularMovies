@@ -22,11 +22,11 @@ import android.widget.Toast;
 import com.toshkin.popularmovies.PopularMoviesApplication;
 import com.toshkin.popularmovies.R;
 import com.toshkin.popularmovies.adapters.MoviesRecyclerAdapter;
-import com.toshkin.popularmovies.interfaces.MovieSelectedListener;
+import com.toshkin.popularmovies.interfaces.ItemSelectedListener;
 import com.toshkin.popularmovies.interfaces.NavigationProvider;
 import com.toshkin.popularmovies.network.API;
-import com.toshkin.popularmovies.network.MoviesResponse;
-import com.toshkin.popularmovies.pojos.MovieItem;
+import com.toshkin.popularmovies.network.pojo.MovieItem;
+import com.toshkin.popularmovies.network.response.MoviesResponse;
 import com.toshkin.popularmovies.utils.Constants;
 import com.toshkin.popularmovies.utils.DividerItemDecoration;
 
@@ -43,14 +43,14 @@ public class MoviesGridFragment extends Fragment implements OnSharedPreferenceCh
     public static final String KEY_ADAPTER_STATE = "ADAPTER_STATE";
     private static final String KEY_LAYOUT_MANAGER_STATE = "LAYOUT_STATE";
 
-    private API mApi;
     private RecyclerView mRecyclerView;
     private MoviesRecyclerAdapter mAdapter;
     private NavigationProvider mNavigator;
-    final private MovieSelectedListener mMovieListener = new MovieSelectedListener() {
+    final private ItemSelectedListener mMovieListener = new ItemSelectedListener() {
         @Override
-        public void onMovieSelected(MovieItem item) {
+        public void onItemSelected(int position) {
             if (mNavigator != null) {
+                MovieItem item = mAdapter.getItems().get(position);
                 mNavigator.openMovieDetailFragment(item);
             }
         }
@@ -61,13 +61,17 @@ public class MoviesGridFragment extends Fragment implements OnSharedPreferenceCh
     private Callback<MoviesResponse> mCallback = new Callback<MoviesResponse>() {
         @Override
         public void success(MoviesResponse moviesResponse, Response response) {
-            mAdapter.clear();
-            mAdapter.addItems(moviesResponse.getMovies());
+            if (MoviesGridFragment.this.isResumed()) {
+                mAdapter.clear();
+                mAdapter.addItems(moviesResponse.getMovies());
+            }
         }
 
         @Override
         public void failure(RetrofitError error) {
-            showError();
+            if (MoviesGridFragment.this.isResumed()) {
+                showError();
+            }
         }
     };
 
@@ -172,7 +176,7 @@ public class MoviesGridFragment extends Fragment implements OnSharedPreferenceCh
     }
 
     private void requestMovies(@NonNull String ordering) {
-        mApi = PopularMoviesApplication.getInstance().getAPI();
+        API mApi = PopularMoviesApplication.getInstance().getAPI();
         mApi.getMovies(ordering, mCallback);
     }
 

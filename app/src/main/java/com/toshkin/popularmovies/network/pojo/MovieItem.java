@@ -1,4 +1,4 @@
-package com.toshkin.popularmovies.pojos;
+package com.toshkin.popularmovies.network.pojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -14,15 +14,6 @@ import java.util.List;
  */
 public class MovieItem implements Parcelable {
 
-    public static final Creator<MovieItem> CREATOR = new Creator<MovieItem>() {
-        public MovieItem createFromParcel(Parcel source) {
-            return new MovieItem(source);
-        }
-
-        public MovieItem[] newArray(int size) {
-            return new MovieItem[size];
-        }
-    };
     @Expose
     @SerializedName("adult")
     private boolean isAdult;
@@ -34,7 +25,7 @@ public class MovieItem implements Parcelable {
     private List<Integer> genreIds;
     @Expose
     @SerializedName("id")
-    private int movieId;
+    private String movieId;
     @Expose
     @SerializedName("original_language")
     private String language;
@@ -65,7 +56,6 @@ public class MovieItem implements Parcelable {
     @Expose
     @SerializedName("vote_count")
     private int voteCount;
-
     public MovieItem() {
     }
 
@@ -74,7 +64,7 @@ public class MovieItem implements Parcelable {
         this.backdropPath = in.readString();
         this.genreIds = new ArrayList<Integer>();
         in.readList(this.genreIds, List.class.getClassLoader());
-        this.movieId = in.readInt();
+        this.movieId = in.readString();
         this.language = in.readString();
         this.originalTitle = in.readString();
         this.overview = in.readString();
@@ -99,7 +89,7 @@ public class MovieItem implements Parcelable {
         return genreIds;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return movieId;
     }
 
@@ -148,12 +138,22 @@ public class MovieItem implements Parcelable {
         return 0;
     }
 
+    public static final Creator<MovieItem> CREATOR = new Creator<MovieItem>() {
+        public MovieItem createFromParcel(Parcel source) {
+            return new MovieItem(source);
+        }
+
+        public MovieItem[] newArray(int size) {
+            return new MovieItem[size];
+        }
+    };
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte(isAdult ? (byte) 1 : (byte) 0);
         dest.writeString(this.backdropPath);
         dest.writeList(this.genreIds);
-        dest.writeInt(this.movieId);
+        dest.writeString(this.movieId);
         dest.writeString(this.language);
         dest.writeString(this.originalTitle);
         dest.writeString(this.overview);

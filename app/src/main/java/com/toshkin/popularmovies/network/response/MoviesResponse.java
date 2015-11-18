@@ -1,8 +1,8 @@
-package com.toshkin.popularmovies.network;
+package com.toshkin.popularmovies.network.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.toshkin.popularmovies.pojos.MovieItem;
+import com.toshkin.popularmovies.network.pojo.MovieItem;
 
 import java.util.List;
 

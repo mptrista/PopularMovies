@@ -5,20 +5,11 @@
                 android:orientation="vertical"
                 android:padding="@dimen/activity_standard_margin">
 
-    <TextView
-        android:id="@+id/settings_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/activity_standard_margin"
-        android:text="@string/title_dialog_fragment"/>
-
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/settings_title"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
         <RadioButton

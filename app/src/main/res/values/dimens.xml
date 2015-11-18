@@ -5,4 +5,22 @@
     <dimen name="activity_standard_margin">16dp</dimen>
     <dimen name="activity_large_margin">32dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="rhythm_medium_standard">72dp</dimen>
+    <dimen name="rhythm_medium_custom">64dp</dimen>
+    <dimen name="rhythm_small_standard">48dp</dimen>
+
+    <dimen name="rhythm_space_half">4dp</dimen>
+    <dimen name="rhythm_space_single">8dp</dimen>
+    <dimen name="rhythm_space_double">16dp</dimen>
+    <dimen name="rhythm_control_normal">48dp</dimen>
+    <dimen name="rhythm_avatar_size">40dp</dimen>
+    <dimen name="rhythm_control_half">24dp</dimen>
+    <dimen name="navigationDrawerMaxWidth">280dp</dimen>
+
+    <dimen name="list_height_standard">72dp</dimen>
+    <dimen name="avatar_image_standard">40dp</dimen>
+    <dimen name="avatar_image_large">112dp</dimen>
+
+    <dimen name="fab_item_decoration">72dp</dimen>
 </resources>

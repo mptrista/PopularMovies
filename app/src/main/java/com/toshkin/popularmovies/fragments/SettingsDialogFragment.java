@@ -43,8 +43,10 @@ public class SettingsDialogFragment extends AppCompatDialogFragment {
         String order = getSharedPrefs().getString(Constants.PREFS_ORDERING, Constants.ORDER_POPULAR_DESC);
         if (Constants.ORDER_POPULAR_DESC.equals(order)) {
             mRadioGroup.check(R.id.order_popularity);
-        } else {
+        } else if (Constants.ORDER_HIGHEST_RATED.equals(order)){
             mRadioGroup.check(R.id.order_rating);
+        } else {
+            mRadioGroup.check(R.id.order_favorites);
         }
     }
 
@@ -55,9 +57,12 @@ public class SettingsDialogFragment extends AppCompatDialogFragment {
                 if (checkedId == R.id.order_popularity) {
                     mRadioGroup.check(R.id.order_popularity);
                     getSharedPrefs().edit().putString(Constants.PREFS_ORDERING, Constants.ORDER_POPULAR_DESC).commit();
-                } else {
+                } else if (checkedId == R.id.order_rating){
                     mRadioGroup.check(R.id.order_rating);
                     getSharedPrefs().edit().putString(Constants.PREFS_ORDERING, Constants.ORDER_HIGHEST_RATED).commit();
+                } else {
+                    mRadioGroup.check(R.id.order_favorites);
+                    getSharedPrefs().edit().putString(Constants.PREFS_ORDERING, Constants.ORDER_FAVORITES).commit();
                 }
                 Runnable run = new Runnable() {
                     @Override

@@ -2,6 +2,7 @@ package com.toshkin.popularmovies.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -58,6 +60,7 @@ public class MovieDetailFragment extends Fragment {
     private TextView mRatingTextView;
     private Button mFavoriteButton;
     private TextView mSummaryTextView;
+    private Toolbar mToolbar;
 
     private ReviewsRecyclerAdapter mReviewsAdapter;
     private TrailersRecyclerAdapter mTrailerAdapter;
@@ -97,7 +100,7 @@ public class MovieDetailFragment extends Fragment {
             mTrailerAdapter.onRestoreInstanceState(savedInstanceState.getParcelable(KEY_TRAILER_ADAPTER_STATE));
         }
 
-        mReviewsAdapter = new ReviewsRecyclerAdapter();
+        mReviewsAdapter = new ReviewsRecyclerAdapter(getContext());
         if (savedInstanceState != null) {
             mReviewsAdapter.onRestoreInstanceState(savedInstanceState.getParcelable(KEY_REVIEWS_ADAPTER_STATE));
         }
@@ -107,6 +110,9 @@ public class MovieDetailFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mTrailerAdapter.setListener(mTrailerListener);
+        if (TextUtils.isEmpty(mMovieItem.getTitle())) {
+            requestMovie();
+        }
         if (mTrailerAdapter.getItemCount() == 0) {
             requestTrailers();
         }
@@ -132,6 +138,7 @@ public class MovieDetailFragment extends Fragment {
         mPosterView = (ImageView) rootView.findViewById(R.id.poster_image_view);
         mTitleTextView = (TextView) rootView.findViewById(R.id.title_text_view);
         mFavoriteButton = (Button) rootView.findViewById(R.id.favorite_button);
+        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         configureTrailerRecyclerView(savedInstanceState);
         configureReviewRecyclerView(savedInstanceState);
         return rootView;
@@ -169,6 +176,7 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mToolbar = null;
         mPosterView = null;
         mTitleTextView = null;
         mRatingTextView = null;
@@ -181,6 +189,8 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        configureTextViews();
         Picasso.with(getContext())
                 .load(Constants.POSTER_BASE_URL + mMovieItem.getPosterPath())
                 .placeholder(R.drawable.ic_placeholder)
@@ -188,20 +198,34 @@ public class MovieDetailFragment extends Fragment {
                 .centerCrop()
                 .fit()
                 .into(mPosterView);
-        String title = mMovieItem.getTitle();
-        if (!TextUtils.isEmpty(mMovieItem.getReleaseDate())) {
-            String date = mMovieItem.getReleaseDate();
-            title = title + " (" + date + ")";
-        }
-        mTitleTextView.setText(title);
-        mRatingTextView.setText(String.valueOf(mMovieItem.getAverageVote()));
-        mSummaryTextView.setText(mMovieItem.getOverview());
         mFavoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Movie should be added to favorites", Toast.LENGTH_SHORT).show();
+                if (!movieIsFavorite()) {
+                    getSharedPrefs().edit().putString(mMovieItem.getMovieId(), mMovieItem.getPosterPath()).commit();
+                    Toast.makeText(getContext(), mMovieItem.getTitle() + " added to favorites!", Toast.LENGTH_SHORT).show();
+                    mFavoriteButton.setText("Remove favorites");
+                } else {
+                    getSharedPrefs().edit().remove(mMovieItem.getMovieId()).commit();
+                    Toast.makeText(getContext(), mMovieItem.getTitle() + " removed from favorites!", Toast.LENGTH_SHORT).show();
+                    mFavoriteButton.setText("Add favorites");
+                }
             }
         });
+        configureFavoriteButton();
+    }
+
+    private void configureFavoriteButton() {
+        if (movieIsFavorite()) {
+            mFavoriteButton.setText("Remove favorites");
+        } else {
+            mFavoriteButton.setText("Add favorites");
+        }
+    }
+
+    private boolean movieIsFavorite() {
+        String moviePoster = getSharedPrefs().getString(mMovieItem.getMovieId(), null);
+        return !TextUtils.isEmpty(moviePoster);
     }
 
     @Override
@@ -225,6 +249,23 @@ public class MovieDetailFragment extends Fragment {
             mReviewsAdapter.onRestoreInstanceState(savedInstanceState.getParcelable(KEY_REVIEWS_ADAPTER_STATE));
         }
     }
+
+    private Callback<MovieItem> mCallback = new Callback<MovieItem>() {
+        @Override
+        public void success(MovieItem movieItem, Response response) {
+            if (MovieDetailFragment.this.isResumed()) {
+                mMovieItem = movieItem;
+                configureTextViews();
+            }
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            if (MovieDetailFragment.this.isResumed()) {
+                showError("details");
+            }
+        }
+    };
 
     private Callback<TrailerResponse> mTrailersCallback = new Callback<TrailerResponse>() {
         @Override
@@ -264,6 +305,11 @@ public class MovieDetailFragment extends Fragment {
         }
     };
 
+    private void requestMovie() {
+        API mApi = PopularMoviesApplication.getInstance().getAPI();
+        mApi.getMovie(mMovieItem.getMovieId(), mCallback);
+    }
+
     private void requestReviews() {
         API mApi = PopularMoviesApplication.getInstance().getAPI();
         mApi.getReviews(mMovieItem.getMovieId(), mReviewsCallback);
@@ -290,5 +336,20 @@ public class MovieDetailFragment extends Fragment {
         if (MovieDetailFragment.this.isVisible()) {
             Toast.makeText(getContext(), "Retrieving " + type + " failed! Check if you are online!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private SharedPreferences getSharedPrefs() {
+        return getContext().getSharedPreferences(
+                Constants.PREFS_FILE, Context.MODE_PRIVATE);
+    }
+
+    private void configureTextViews() {
+        String date = mMovieItem.getReleaseDate();
+        mToolbar.setTitle(mMovieItem.getTitle());
+        if (!TextUtils.isEmpty(date)) {
+            mTitleTextView.setText(date);
+        }
+        mRatingTextView.setText(String.valueOf(mMovieItem.getAverageVote()));
+        mSummaryTextView.setText(mMovieItem.getOverview());
     }
 }

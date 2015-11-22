@@ -56,7 +56,13 @@ public class MovieItem implements Parcelable {
     @Expose
     @SerializedName("vote_count")
     private int voteCount;
+
     public MovieItem() {
+    }
+
+    public MovieItem(String movieId, String posterPath) {
+        this.movieId = movieId;
+        this.posterPath = posterPath;
     }
 
     protected MovieItem(Parcel in) {

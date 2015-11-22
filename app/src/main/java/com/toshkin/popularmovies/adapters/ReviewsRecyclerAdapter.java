@@ -1,5 +1,6 @@
 package com.toshkin.popularmovies.adapters;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.toshkin.popularmovies.R;
@@ -23,9 +25,11 @@ import java.util.List;
 public class ReviewsRecyclerAdapter extends RecyclerView.Adapter<ReviewsRecyclerAdapter.TrailerViewHolder> {
 
     private List<ReviewData> mItems;
+    private Context mContext;
 
-    public ReviewsRecyclerAdapter() {
+    public ReviewsRecyclerAdapter(Context context) {
         this.mItems = new ArrayList<>();
+        this.mContext = context;
     }
 
     @Override
@@ -108,12 +112,34 @@ public class ReviewsRecyclerAdapter extends RecyclerView.Adapter<ReviewsRecycler
     public class TrailerViewHolder extends RecyclerView.ViewHolder {
         private TextView mNameView;
         private TextView mReviewView;
+        private ImageView mArrowUp;
+        private ImageView mArrowDown;
         private boolean isExpanded;
 
         public TrailerViewHolder(View itemView) {
             super(itemView);
             mNameView = (TextView) itemView.findViewById(R.id.reviewer_name);
             mReviewView = (TextView) itemView.findViewById(R.id.review_text);
+            mArrowUp = (ImageView) itemView.findViewById(R.id.expanded_arrow_up);
+            mArrowDown = (ImageView) itemView.findViewById(R.id.expanded_arrow_down);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isExpanded) {
+                        isExpanded = false;
+                        mReviewView.setMaxLines(2);
+                        mReviewView.setEllipsize(TextUtils.TruncateAt.END);
+                        mArrowUp.setVisibility(View.VISIBLE);
+                        mArrowDown.setVisibility(View.GONE);
+                    } else {
+                        isExpanded = true;
+                        mReviewView.setMaxLines(Integer.MAX_VALUE);
+                        mReviewView.setEllipsize(null);
+                        mArrowUp.setVisibility(View.GONE);
+                        mArrowDown.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
         }
 
         public void onBind(ReviewData item) {
@@ -121,20 +147,6 @@ public class ReviewsRecyclerAdapter extends RecyclerView.Adapter<ReviewsRecycler
             mReviewView.setClickable(true);
             mReviewView.setMovementMethod(LinkMovementMethod.getInstance());
             mReviewView.setText(Html.fromHtml(item.getContent()));
-            mReviewView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isExpanded) {
-                        isExpanded = false;
-                        mReviewView.setMaxLines(2);
-                        mReviewView.setEllipsize(TextUtils.TruncateAt.END);
-                    } else {
-                        isExpanded = true;
-                        mReviewView.setMaxLines(Integer.MAX_VALUE);
-                        mReviewView.setEllipsize(null);
-                    }
-                }
-            });
         }
     }
 }

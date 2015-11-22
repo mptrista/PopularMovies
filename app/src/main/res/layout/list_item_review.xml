@@ -2,10 +2,9 @@
 <LinearLayout
     android:id="@+id/review_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/rhythm_space_double"
-    android:layout_marginBottom="@dimen/rhythm_space_double"
     android:gravity="center_vertical|start"
     android:minHeight="@dimen/rhythm_avatar_size"
     android:orientation="vertical"
@@ -17,6 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:clickable="false"
+        android:focusable="false"
         android:textAppearance="?android:textAppearanceListItemSmall"/>
 
     <TextView
@@ -29,12 +30,31 @@
         android:gravity="center_vertical"
         android:textIsSelectable="false"
         android:linksClickable="false"
-        android:clickable="true"
-        android:autoLink="all"
+        android:clickable="false"
+        android:focusable="false"
         android:scrollHorizontally="true"
         tools:text="You put your mind to it, you can surely do it Move on up, we can to move on up Move on up, we can to move on up Move on up,"
         android:maxLines="2"
         android:ellipsize="end"
         android:lines="2" />
+
+    <ImageView
+        android:id="@+id/expanded_arrow_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:clickable="false"
+        android:focusable="false"
+        android:src="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+
+    <ImageView
+        android:id="@+id/expanded_arrow_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:clickable="false"
+        android:focusable="false"
+        android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
+        android:visibility="gone"/>
 
 </LinearLayout>

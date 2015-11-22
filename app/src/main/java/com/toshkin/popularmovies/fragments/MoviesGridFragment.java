@@ -30,6 +30,10 @@ import com.toshkin.popularmovies.network.response.MoviesResponse;
 import com.toshkin.popularmovies.utils.Constants;
 import com.toshkin.popularmovies.utils.DividerItemDecoration;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -46,18 +50,10 @@ public class MoviesGridFragment extends Fragment implements OnSharedPreferenceCh
     private RecyclerView mRecyclerView;
     private MoviesRecyclerAdapter mAdapter;
     private NavigationProvider mNavigator;
-    final private ItemSelectedListener mMovieListener = new ItemSelectedListener() {
-        @Override
-        public void onItemSelected(int position) {
-            if (mNavigator != null) {
-                MovieItem item = mAdapter.getItems().get(position);
-                mNavigator.openMovieDetailFragment(item);
-            }
-        }
-    };
     private RecyclerView.LayoutManager mLayoutManager;
     private Toolbar mToolbar;
     private SharedPreferences mSharedPreferences;
+
     private Callback<MoviesResponse> mCallback = new Callback<MoviesResponse>() {
         @Override
         public void success(MoviesResponse moviesResponse, Response response) {
@@ -79,11 +75,15 @@ public class MoviesGridFragment extends Fragment implements OnSharedPreferenceCh
         return new MoviesGridFragment();
     }
 
-    private static int getThemeAttribute(Resources.Theme theme, int themeAttr) {
-        final TypedValue value = new TypedValue();
-        theme.resolveAttribute(themeAttr, value, true);
-        return value.resourceId;
-    }
+    final private ItemSelectedListener mMovieListener = new ItemSelectedListener() {
+        @Override
+        public void onItemSelected(int position) {
+            if (mNavigator != null) {
+                MovieItem item = mAdapter.getItems().get(position);
+                mNavigator.openMovieDetailFragment(item);
+            }
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,10 +125,12 @@ public class MoviesGridFragment extends Fragment implements OnSharedPreferenceCh
         super.onResume();
         mAdapter.setMovieListener(mMovieListener);
         mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        String order = getSharedPrefs().getString(Constants.PREFS_ORDERING, Constants.ORDER_POPULAR_DESC);
 
         if (mAdapter.getItemCount() == 0) {
-            String order = getSharedPrefs().getString(Constants.PREFS_ORDERING, Constants.ORDER_POPULAR_DESC);
             requestMovies(order);
+        } else if (Constants.ORDER_FAVORITES.equals(order)) {
+            extractMoviesAndLoad();
         }
     }
 
@@ -175,9 +177,36 @@ public class MoviesGridFragment extends Fragment implements OnSharedPreferenceCh
         }
     }
 
+    private static int getThemeAttribute(Resources.Theme theme, int themeAttr) {
+        final TypedValue value = new TypedValue();
+        theme.resolveAttribute(themeAttr, value, true);
+        return value.resourceId;
+    }
+
     private void requestMovies(@NonNull String ordering) {
-        API mApi = PopularMoviesApplication.getInstance().getAPI();
-        mApi.getMovies(ordering, mCallback);
+        if (Constants.ORDER_FAVORITES.equals(ordering)) {
+            extractMoviesAndLoad();
+        } else {
+            API mApi = PopularMoviesApplication.getInstance().getAPI();
+            mApi.getMovies(ordering, mCallback);
+        }
+    }
+
+    private void extractMoviesAndLoad() {
+        Map map = getSharedPrefs().getAll();
+        map.remove(Constants.PREFS_ORDERING);
+        List<String> moviePosters = new ArrayList<>(map.values());
+        List<String> movieIds = new ArrayList<>(map.keySet());
+        List<MovieItem> movieItems = new ArrayList<>();
+        if (movieIds.size() == moviePosters.size() && moviePosters.size() > 0) {
+            for (int i = 0; i < moviePosters.size(); i++) {
+                movieItems.add(new MovieItem(movieIds.get(i), moviePosters.get(i)));
+            }
+            mAdapter.clear();
+            mAdapter.addItems(movieItems);
+        } else {
+            Toast.makeText(getContext(), "No movies added to favorites!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void configureRecyclerView(Bundle savedInstanceState) {

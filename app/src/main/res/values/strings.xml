@@ -16,4 +16,5 @@
 
     <!-- Detail strings -->
     <string name="desc_movie_trailer">Image thumbnail of the trailer</string>
+    <string name="text_radio_favorites">Favorites</string>
 </resources>

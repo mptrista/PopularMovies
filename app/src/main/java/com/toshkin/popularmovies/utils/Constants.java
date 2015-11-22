@@ -8,6 +8,7 @@ public class Constants {
 
     public static final String ORDER_POPULAR_DESC= "popularity.desc";
     public static final String ORDER_HIGHEST_RATED = "vote_average.desc";
+    public static final String ORDER_FAVORITES = "favorites";
 
     public static final String PREFS_ORDERING = "PREFERENCES_ORDERING";
     public static final String PREFS_FILE = "com.toshkin.popularmovies.PREFERENCE_FILE_KEY";

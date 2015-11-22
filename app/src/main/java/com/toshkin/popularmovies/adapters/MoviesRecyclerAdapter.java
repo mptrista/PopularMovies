@@ -135,8 +135,6 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
                     .load(POSTER_BASE_URL + item.getPosterPath())
                     .placeholder(R.drawable.ic_placeholder)
                     .error(R.drawable.ic_placeholder)
-                    .centerCrop()
-                    .fit()
                     .into(mImageView);
         }
     }

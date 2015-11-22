@@ -80,6 +80,8 @@
                 android:layout_marginRight="@dimen/activity_standard_margin"
                 android:text="@string/button_add_favorites"/>
 
+
+
             <TextView
                 android:id="@+id/summary_text_view"
                 android:layout_width="wrap_content"

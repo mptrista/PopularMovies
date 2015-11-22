@@ -6,8 +6,6 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.picasso.OkHttpDownloader;
-import com.squareup.picasso.Picasso;
 import com.toshkin.popularmovies.network.API;
 import com.toshkin.popularmovies.network.ApiKeyInterceptor;
 import com.toshkin.popularmovies.network.ServerDateDeserializer;
@@ -36,23 +34,12 @@ public class PopularMoviesApplication extends Application {
     }
 
     private API mApi;
-    private Picasso mPicasso;
 
     public API getAPI() {
         if (mApi != null) {
             return mApi;
         } else {
             return this.setupRestClient();
-        }
-    }
-
-    public Picasso getPicasso() {
-        if (mPicasso != null) {
-            return mPicasso;
-        } else {
-            return new Picasso.Builder(getApplicationContext())
-                    .downloader(new OkHttpDownloader(new OkHttpClient()))
-                    .build();
         }
     }
 

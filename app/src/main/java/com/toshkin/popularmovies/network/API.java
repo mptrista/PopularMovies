@@ -1,5 +1,6 @@
 package com.toshkin.popularmovies.network;
 
+import com.toshkin.popularmovies.network.pojo.MovieItem;
 import com.toshkin.popularmovies.network.response.MoviesResponse;
 import com.toshkin.popularmovies.network.response.ReviewsResponse;
 import com.toshkin.popularmovies.network.response.TrailerResponse;
@@ -22,5 +23,8 @@ public interface API {
 
     @GET("/movie/{id}/reviews")
     void getReviews(@Path("id") String movieId, Callback<ReviewsResponse> callback);
+
+    @GET("/movie/{id}")
+    void getMovie(@Path("id") String movieId, Callback<MovieItem> callback);
 
 }

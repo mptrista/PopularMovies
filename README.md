@@ -7,6 +7,9 @@ api.key=YOUR_KEY
 
 # Used libraries
 picasso:2.5.2'
+
 support:recyclerview-v7:23.1.0'
+
 support:appcompat-v7:23.1.0'
+
 support:design:23.1.0'
